@@ -15,8 +15,6 @@ Options:
                            deploy branch.
   -n, --no-hash            Don't append the source commit's hash to the deploy
                            commit's message.
-      --source-only        Only build but not push
-      --push-only          Only push but not build
 "
 
 
@@ -205,11 +203,4 @@ sanitize() {
   "$@" 2> >(filter 1>&2) | filter
 }
 
-if [[ $1 = --source-only ]]; then
-  run_build
-elif [[ $1 = --push-only ]]; then
-  main "$@"
-else
-  run_build
-  main "$@"
-fi
+run_build
