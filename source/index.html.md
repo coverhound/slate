@@ -1,239 +1,92 @@
 ---
-title: API Reference
+title: Leads API
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - shell
-  - ruby
-  - python
-  - javascript
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/lord/slate'>Documentation Powered by Slate</a>
 
 includes:
-  - errors
 
-search: true
+search: false
 ---
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
-
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
-
-This example API documentation page was created with [Slate](https://github.com/lord/slate). Feel free to edit it and use it as a base for your own API's documentation.
+Welcome to CoverHound's Commercial Leads API. Third-party partners can use our API to send individual leads to CoverHound digitally. Version 1.0 of the Leads API is limited to creating accounts in our proprietary agency tool and collecting further details on the business lead (e.g., payroll, revenue). If you have any questions regarding the documentation, please reach out to your partner contact or commercial-product@coverhound.com
 
 # Authentication
 
 > To authorize, use this code:
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
-
 ```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
+# Pass the correct headers with each request
+curl "https://coverhound.com/business-insurance/partners/api/v1/leads"
+  -H "Authorization: test_api_key"
+  -H "Content-Type: application/json"
 ```
 
-```javascript
-const kittn = require('kittn');
+The Leads API uses API keys to allow access to the API. All authorized partners will be provided an API Key by CoverHound.
 
-let api = kittn.authorize('meowmeowmeow');
-```
+The Leads API expects the API key to be included in all API requests to the server in a header:
 
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
+`Authorization: test_api_key`
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+You must replace <code>test_api_key</code> with your personal API key.
 </aside>
 
-# Kittens
+# Leads
 
-## Get All Kittens
+## Send New Leads
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
+> Request example:
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+POST https://coverhound.com/business-insurance/partners/api/v1/leads
+Content-Type: application/json
+Authorization: test_api_key
 ```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
-
-> The above command returns JSON structured like this:
 
 ```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
+{
+  "shopper": {
+    "cbt_code": "CBT_123",
+    "state": "CA",
+    "first_name": "Jane",
+    "last_name": "Smith",
+    "fein": "123456789",
+    "telephone": "1234567890",
+    "extension": "123",
+    "email": "jane@api_test.com",
+    "business_name": "Jane Smith Corporation",
+    "product_codes": ["workers_compensation", "bop"]
   },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+  "lead_data": {
+    "CH_020": "1 California Street",
+    "CH_251": "This is a better description of what our business does."
   }
-]
+}
 ```
 
-This endpoint retrieves all kittens.
+This endpoint posts new lead data to our API. The API allows for one lead per request.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`POST https://coverhound.com/business-insurance/partners/api/v1/leads`
 
 ### Query Parameters
 
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
-```
-
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
 Parameter | Description
 --------- | -----------
-ID | The ID of the kitten to retrieve
-
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
-```
-
-This endpoint deletes a specific kitten.
-
-### HTTP Request
-
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
-
+shopper | Stores all shopper related data.
+cbt_code (optional) | Class of Business code. Should match a CoverHound CBT code.
+state | State for lead. Accepts both state name and abbreviation, i.e. "California" or "CA".
+first_name | First name of lead.
+last_name | Last name of lead.
+fein (optional) | 9 digit FEIN of lead.
+telephone | Telephone of lead. Accepts set of 10 digits without parentheses or dashes.
+extension | Extension of lead. Accepts a maximum of 10 digits.
+email (optional) | Email of lead.
+business_name | Business name of lead.
+product_codes | Array of CoverHound product codes.
+lead_data | Store all lead related data. Each key/value pair inside lead_data should match a CoverHound question code and corresponding answer.
