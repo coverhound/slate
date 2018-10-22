@@ -153,6 +153,11 @@ X-Request-Id | Provide this unique identifier for your request when contacting s
     "email": "john.smith@example.com",
     "phone": "4158675309",
     "isCellPhone": true
+  },
+  "marketingInformation" : {
+    "campaign" : "TestCampaign",
+    "pub" : "AgentSmith123",
+    "treaty" : "a40496b7-8353-44b2-936d-10c770c38ad7"
   }
 }
 ```
@@ -203,6 +208,10 @@ lastName | string | Always |
 email | string | Always | Used for both contact and documentation
 phone | string | Always | Only 10-character strings of digits
 isCellPhone | `true`<br>`false` | Always |
+*marketingInformation* | | *Optional* | *Top-level*
+campaign | string | Optional | Marketing campaign identifier
+pub | string | Optional | External agent identifier
+treaty | string | Optional | Alternate treaty identifier (overrides established treaty)
 
 <aside class="warning">
 If <code>billingAddress</code> is not provided in an initial request, the API defaults <code>billingAddress</code> values to those provided via <code>address</code>. Any subsequent requests for the same shopper will override both addresses.
@@ -227,8 +236,8 @@ This endpoint accepts JSON with either camelCased or snake_cased keys.
       "partner": {
          "uuid": "3a46da69-c60b-485b-8dbc-d1a65384e0b8",
          "displayName": "Test Partner",
-         "discountDetails": "10",
-         "promoMessage": null
+         "discountDetails": "This is a test description of the promotion",
+         "promoMessage": "Get 100% off!"
       }
     },
     "quotes": [
@@ -236,7 +245,6 @@ This endpoint accepts JSON with either camelCased or snake_cased keys.
         "deductible": "500.0",
         "expirationDate": "2019-01-15",
         "limit": "25000.0",
-        "marketingFeePercentage": "5.0",
         "resumeUrl": "https://trustedplace.com/resume/91869baf-538d-4ad5-b04d-a568f46c050f",
         "coverageOption": {
           "kind": "bundle",
@@ -246,16 +254,12 @@ This endpoint accepts JSON with either camelCased or snake_cased keys.
          "paymentOptions": [
            {
              "kind": "annual",
-             "netPremium": "171.35",
-             "marketingFee": "9.02",
              "grossPremium": "180.37",
              "applicableTax": "11.45",
              "purchasePrice": "191.82"
            },
            {
              "kind": "monthly",
-             "netPremium": "186.95",
-             "marketingFee": "9.84",
              "grossPremium": "196.79",
              "applicableTax": "12.5",
              "purchasePrice": "209.29"
@@ -266,7 +270,6 @@ This endpoint accepts JSON with either camelCased or snake_cased keys.
         "deductible": "500.0",
         "expirationDate": "2019-01-15",
         "limit": "25000.0",
-        "marketingFeePercentage": "5.0",
         "resumeUrl": "https://trustedplace.com/resume/9ab15bcb-5f8a-4440-9f98-854d1482de6f",
         "coverageOption": {
           "kind": "dwelling",
@@ -276,16 +279,12 @@ This endpoint accepts JSON with either camelCased or snake_cased keys.
         "paymentOptions": [
           {
             "kind": "annual",
-            "netPremium": "130.48",
-            "marketingFee": "6.87",
             "grossPremium": "137.35",
             "applicableTax": "8.72",
             "purchasePrice": "146.07"
           },
           {
             "kind": "monthly",
-            "netPremium": "142.36",
-            "marketingFee": "7.49",
             "grossPremium": "149.85",
             "applicableTax": "9.52",
             "purchasePrice": "159.37"
@@ -296,7 +295,6 @@ This endpoint accepts JSON with either camelCased or snake_cased keys.
         "deductible": "500.0",
         "expirationDate": "2019-01-15",
         "limit": "25000.0",
-        "marketingFeePercentage": "5.0",
         "resumeUrl": "https://trustedplace.com/resume/a5d6aa01-6b06-423b-8174-858196ee9586",
         "coverageOption": {
           "kind": "hocontents",
@@ -306,16 +304,12 @@ This endpoint accepts JSON with either camelCased or snake_cased keys.
         "paymentOptions": [
           {
             "kind": "annual",
-            "netPremium": "59.64",
-            "marketingFee": "3.14",
             "grossPremium": "62.78",
             "applicableTax": "3.99",
             "purchasePrice": "66.77"
           },
           {
             "kind": "monthly",
-            "netPremium": "65.07",
-            "marketingFee": "3.42",
             "grossPremium": "68.49",
             "applicableTax": "4.35",
             "purchasePrice": "72.84"
@@ -353,8 +347,7 @@ Key | Values | Description
 deductible | string | Parses into $USD
 expirationDate | string | Date on which quoted premiums expire. Must re-quote for this shopper on and after date
 limit | string | Parses into $USD
-marketingFeePercentage | string | Revenue-sharing percentage for the shopper's associated partner
-resumeUrl | string (URL) | TrustedPlace™ landing page on which shoppers can continue to purchase contract from given quote
+resumeUrl | string (URL) | TrustedPlace™ landing page on which shoppers can continue to purchase a contract from a given quote
 
 ### Coverage Option Informatin
 
@@ -374,8 +367,6 @@ The developer can decide how to market the price differences surfaced through th
 Key | Values | Description
 --- | ------ | -----------
 kind | `"annual"`<br>`"monthly"` | Billing cycle for given payment option
-netPremium | string | Parses into $USD
-marketingFee | string | Parses into $USD
 grossPremium | string | Parses into $USD (cost before taxes)
 applicableTax | string | Parses into $USD
 purchasePrice | string | Parses into $USD (total charge to the shopper over billing cycle)
