@@ -229,6 +229,7 @@ This endpoint accepts JSON with either camelCased or snake_cased keys.
 {
   "data": {
     "apiVersion": "1.0.0",
+    "pub": "AgentSmith123",
     "shopper": {
       "uuid": "ad89b4f8-c905-4f2e-b60c-8f02b7814033",
       "eligible": true,
@@ -320,6 +321,10 @@ This endpoint accepts JSON with either camelCased or snake_cased keys.
   }
 }
 ```
+
+Key | Values | Required | Description
+--- | ------ | -------- | -----------
+pub | string | Optional | The external agent identifier, if it was passed in the request body.
 
 ### Shopper Information
 
