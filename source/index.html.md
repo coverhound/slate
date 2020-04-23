@@ -127,8 +127,7 @@ X-Request-Id | Provide this unique identifier for your request when contacting s
   "property": {
     "residenceType": "homeowner",
     "occupancy": "primary",
-    "propertyType": "single_family",
-    "squareFootageCategory": "large"
+    "propertyType": "single_family"
   },
   "address": {
   	"addressLine1": "One State St.",
@@ -193,7 +192,6 @@ Key | Possible Values | Required | Notes
 residenceType | `"homeowner"`<br>`"renter"` | Always |
 occupancy | `"primary"`<br>`"investment"` | If&nbsp;`"homeowner"` | `"primary"` encompasses secondary residences as well
 propertyType | `"single_family"`<br>`"condo"`<br>`"apartment"`<br>`"townhouse"`<br>`"multi_family"`<br>`"mobile_home"`<br>`"recreational_vehicle"`<br>`"other"` | If&nbsp;`"homeowner"` |
-squareFootageCategory | `"small"`<br>`"medium"`<br>`"large"`<br>`"extra_large"` | If&nbsp;`"homeowner"` | small: 0ft²- 2,000ft²<br>medium: 2,001ft² - 4,000ft²<br>large: 4,001ft² - 10,000ft²<br>extra_large: 10,000ft²+
 *address (billingAddress)* | | | *Top-level*
 addressLine1 | string | Always |
 addressLine2 | string | Optional |
